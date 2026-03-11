@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyEase | Study Smarter, Stress Less</title>
+  <style>
+    :root {
+      --navy: #1F3A5F;
+      --orange: #FFA726;
+      --mint: #F4FBFA;
+      --teal: #3AB6A6;
+      --blue: #4A90E2;
+      --text: #243447;
+      --muted: #5F6F81;
+      --card: #ffffff;
+      --line: #D9E8E5;
+      --shadow: 0 12px 30px rgba(31, 58, 95, 0.10);
+      --radius: 20px;
+      --max: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #F9FCFC 0%, #EEF8F6 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      border: none;
+      border-radius: 999px;
+      padding: .95rem 1.35rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+    .btn-primary {
+      background: var(--orange);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(255,167,38,.28);
+    }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-secondary {
+      background: #fff;
+      color: var(--navy);
+      border: 1px solid var(--line);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(249, 252, 252, 0.88);
+      border-bottom: 1px solid rgba(31, 58, 95, 0.06);
+    }
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: .2px;
+    }
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(31,58,95,.96), rgba(58,182,166,.92));
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .logo::before {
+      content: "";
+      position: absolute;
+      width: 30px;
+      height: 14px;
+      border-radius: 30px 30px 0 0;
+      border: 3px solid rgba(255,255,255,.92);
+      border-bottom: none;
+      top: 9px;
+    }
+    .logo::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 20px;
+      border-radius: 3px;
+      background: var(--orange);
+      bottom: 10px;
+      box-shadow: 0 -11px 0 0 rgba(255,255,255,.92), 0 0 0 999px rgba(255,255,255,0);
+      clip-path: polygon(18% 100%, 82% 100%, 100% 32%, 74% 32%, 74% 0, 26% 0, 26% 32%, 0 32%);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.15rem;
+      padding: 0;
+      margin: 0;
+      color: var(--muted);
+      font-weight: 600;
+      flex-wrap: wrap;
+      justify-content: end;
+    }
+    nav a:hover { color: var(--navy); }
+
+    .hero {
+      padding: 4rem 0 2.5rem;
+    }
+    .hero-wrap {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(58,182,166,.11);
+      color: var(--teal);
+      border-radius: 999px;
+      padding: .45rem .8rem;
+      font-weight: 700;
+      font-size: .92rem;
+    }
+    h1 {
+      margin: 1rem 0 .85rem;
+      font-size: clamp(2.2rem, 4.8vw, 4.3rem);
+      line-height: 1.05;
+      color: var(--navy);
+    }
+    .hero p {
+      font-size: 1.07rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 62ch;
+    }
+    .hero-actions {
+      display: flex;
+      gap: .9rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, #fff, #F5FBFA);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 1.25rem;
+    }
+    .lighthouse-card {
+      min-height: 430px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 68% 22%, rgba(255,167,38,.18), transparent 16%),
+        linear-gradient(180deg, #ffffff, #eef7f5);
+    }
+    .beam {
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(255,167,38,.34) 0%, rgba(255,167,38,.12) 48%, rgba(255,167,38,0) 72%);
+      top: 30px;
+      right: 36px;
+      border-radius: 50%;
+      filter: blur(1px);
+    }
+    .tower {
+      width: 150px;
+      height: 245px;
+      position: relative;
+      display: flex;
+      align-items: end;
+      justify-content: center;
+    }
+    .tower-shaft {
+      width: 74px;
+      height: 172px;
+      background: linear-gradient(180deg, #2A4A74, #1F3A5F);
+      clip-path: polygon(18% 100%, 82% 100%, 70% 0, 30% 0);
+      border-radius: 5px;
+      position: relative;
+      box-shadow: 0 12px 24px rgba(31,58,95,.2);
+    }
+    .tower-shaft::before {
+      content: "";
+      position: absolute;
+      top: 28px; left: 50%; transform: translateX(-50%);
+      width: 16px; height: 18px;
+      background: rgba(255,255,255,.94);
+      border-radius: 3px;
+      box-shadow: 0 42px 0 0 rgba(255,255,255,.9), 0 84px 0 0 rgba(255,255,255,.86);
+    }
+    .tower-top {
+      position: absolute;
+      top: 14px;
+      width: 92px;
+      height: 42px;
+      background: var(--orange);
+      border-radius: 16px 16px 10px 10px;
+      box-shadow: 0 8px 18px rgba(255,167,38,.28);
+    }
+    .book-stack {
+      position: absolute;
+      bottom: 18px;
+      width: 220px;
+      display: grid;
+      gap: 10px;
+    }
+    .book {
+      height: 24px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #264568, #355f8f);
+      box-shadow: 0 8px 18px rgba(31,58,95,.14);
+    }
+    .book:nth-child(2) { width: 92%; justify-self: center; }
+    .book:nth-child(3) { width: 82%; justify-self: center; }
+
+    section {
+      padding: 2rem 0;
+    }
+    .section-head {
+      margin-bottom: 1.1rem;
+    }
+    .section-head h2 {
+      margin: 0 0 .5rem;
+      font-size: clamp(1.55rem, 3vw, 2.4rem);
+      color: var(--navy);
+    }
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 70ch;
+      line-height: 1.7;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+    .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 1.35rem;
+      background: rgba(74,144,226,.1);
+      color: var(--blue);
+      margin-bottom: .95rem;
+    }
+    .card h3 { margin: 0 0 .45rem; color: var(--navy); }
+    .card p { margin: 0; color: var(--muted); line-height: 1.7; }
+
+    .how {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .step {
+      background: linear-gradient(180deg, #fff, #F9FCFC);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.1rem;
+    }
+    .step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #fff;
+      background: var(--teal);
+      margin-bottom: .8rem;
+    }
+
+    .feature-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+    .panel {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 1.2rem;
+    }
+    .quiz label {
+      display: block;
+      font-weight: 700;
+      color: var(--navy);
+      margin: .95rem 0 .55rem;
+    }
+    .quiz select, .quiz input[type="range"], .signup input {
+      width: 100%;
+    }
+    .quiz select, .signup input {
+      border: 1px solid #CFE0DD;
+      border-radius: 14px;
+      padding: .85rem 1rem;
+      font-size: 1rem;
+      background: #fff;
+    }
+    .muted-box {
+      padding: 1rem;
+      background: var(--mint);
+      border: 1px dashed #BED9D4;
+      border-radius: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-top: 1rem;
+    }
+
+    .planner-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 1rem;
+    }
+    .sidebar {
+      background: linear-gradient(180deg, #F7FCFB, #EDF8F6);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 1rem;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: .75rem;
+      color: var(--navy);
+      font-weight: 700;
+    }
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: .6rem;
+    }
+    .day {
+      background: #F9FCFC;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      min-height: 112px;
+      padding: .75rem;
+    }
+    .day strong { color: var(--navy); }
+    .task {
+      margin-top: .5rem;
+      font-size: .9rem;
+      padding: .42rem .55rem;
+      background: rgba(58,182,166,.1);
+      color: var(--teal);
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .tips {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .tip {
+      background: linear-gradient(180deg, #fff, #F8FCFB);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 1rem;
+      min-height: 170px;
+    }
+    .notice {
+      margin-top: 1rem;
+      background: #FFF7EB;
+      border: 1px solid #F7D59A;
+      color: #6A4A11;
+      padding: 1rem;
+      border-radius: 18px;
+      line-height: 1.7;
+    }
+
+    .community-post {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1rem;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: .8rem;
+    }
+
+    .pricing {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .price-card {
+      padding: 1.3rem;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .price-card.featured {
+      border-color: rgba(255,167,38,.5);
+      background: linear-gradient(180deg, #fff, #FFF8F0);
+      position: relative;
+    }
+    .badge {
+      display: inline-flex;
+      padding: .35rem .7rem;
+      border-radius: 999px;
+      background: rgba(255,167,38,.14);
+      color: #B76B00;
+      font-size: .85rem;
+      font-weight: 800;
+      margin-bottom: .8rem;
+    }
+    .price {
+      font-size: 2rem;
+      color: var(--navy);
+      font-weight: 800;
+      margin: .35rem 0 .75rem;
+    }
+    .price-card ul {
+      padding-left: 1.2rem;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .signup {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+    .signup .panel {
+      height: 100%;
+    }
+    .signup form {
+      display: grid;
+      gap: .85rem;
+    }
+    .check {
+      display: flex;
+      gap: .7rem;
+      align-items: start;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    footer {
+      padding: 2rem 0 3rem;
+      color: var(--muted);
+    }
+    .footer-box {
+      background: linear-gradient(180deg, #fff, #F5FBFA);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero-wrap,
+      .feature-layout,
+      .signup,
+      .planner-grid,
+      .pricing {
+        grid-template-columns: 1fr;
+      }
+      .grid-3,
+      .how,
+      .tips { grid-template-columns: 1fr; }
+      .calendar { grid-template-columns: repeat(2, 1fr); }
+      nav { display: none; }
+    }
+
+    @media (max-width: 560px) {
+      .calendar { grid-template-columns: 1fr; }
+      .hero { padding-top: 2.2rem; }
+      .lighthouse-card { min-height: 340px; }
+      .book-stack { width: 180px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#home">
+        <span class="logo" aria-hidden="true"></span>
+        <span>StudyEase</span>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#stress-check">Stress Check</a></li>
+          <li><a href="#planner">Planner</a></li>
+          <li><a href="#wellbeing">Wellbeing</a></li>
+          <li><a href="#community">Community</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </nav>
+      <a class="btn btn-primary" href="#signup">Get Started</a>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div>
+          <span class="eyebrow">Academic stress support for university students</span>
+          <h1>Study Smarter,<br>Stress Less.</h1>
+          <p>
+            StudyEase is a digital platform that helps university students manage academic stress through quick stress checks,
+            structured study planning, wellbeing resources, and a supportive community.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#stress-check">Take the Stress Check</a>
+            <a class="btn btn-secondary" href="#features">Explore Features</a>
+          </div>
+        </div>
+
+        <div class="hero-card lighthouse-card" aria-label="StudyEase brand illustration">
+          <div class="beam"></div>
+          <div class="tower">
+            <div class="tower-top"></div>
+            <div class="tower-shaft"></div>
+          </div>
+          <div class="book-stack">
+            <div class="book"></div>
+            <div class="book"></div>
+            <div class="book"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <div class="section-head">
+          <h2>Built for students under pressure</h2>
+          <p>
+            StudyEase combines productivity support and wellbeing guidance in one place, helping students feel more in control
+            during coursework, revision, and deadline-heavy weeks.
+          </p>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">📊</div>
+            <h3>Stress Check</h3>
+            <p>Complete a short self-assessment to understand your current study stress level and get practical next steps.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🗓️</div>
+            <h3>Study Planner</h3>
+            <p>Break deadlines into smaller tasks, organise weekly priorities, and reduce last-minute academic overload.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🌿</div>
+            <h3>Wellbeing Hub</h3>
+            <p>Access supportive articles, focus tips, breathing exercises, and realistic strategies for handling pressure.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <h2>How StudyEase works</h2>
+          <p>A simple digital journey that moves students from awareness to action.</p>
+        </div>
+        <div class="how">
+          <div class="step">
+            <div class="step-num">1</div>
+            <h3>Check stress</h3>
+            <p>Students complete a quick self-check to identify whether they feel low, moderate, or high study stress.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <h3>Get insights</h3>
+            <p>StudyEase provides supportive feedback and directs users to planner tools and wellbeing tips.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <h3>Build balance</h3>
+            <p>Students use weekly planning and stress-reduction content to improve routine, focus, and confidence.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stress-check">
+      <div class="container feature-layout">
+        <div>
+          <div class="section-head">
+            <h2>Stress Check</h2>
+            <p>
+              A free, student-friendly self-assessment that encourages reflection and provides non-medical, supportive guidance.
+            </p>
+          </div>
+          <div class="panel quiz">
+            <label for="deadline">How often do deadlines make you feel overwhelmed?</label>
+            <select id="deadline">
+              <option>Sometimes</option>
+              <option>Rarely</option>
+              <option>Often</option>
+              <option>Very often</option>
+            </select>
+
+            <label for="confidence">How confident do you feel managing coursework?</label>
+            <select id="confidence">
+              <option>Somewhat confident</option>
+              <option>Very confident</option>
+              <option>Not very confident</option>
+              <option>Not confident at all</option>
+            </select>
+
+            <label for="breaks">How often do you take study breaks?</label>
+            <select id="breaks">
+              <option>Sometimes</option>
+              <option>Regularly</option>
+              <option>Rarely</option>
+            </select>
+
+            <label for="stressRange">How stressed do you feel right now?</label>
+            <input id="stressRange" type="range" min="1" max="10" value="6" />
+
+            <div class="hero-actions" style="margin-top:1rem;">
+              <button class="btn btn-primary" type="button">See My Result</button>
+              <button class="btn btn-secondary" type="button">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 style="margin-top:0;color:var(--navy);">Example result</h3>
+          <div class="muted-box">
+            <strong style="color:var(--navy);">Moderate Academic Stress</strong><br><br>
+            You may benefit from better deadline planning, more regular study breaks, and a clearer weekly routine. Try the
+            Study Planner to organise urgent tasks and visit the Wellbeing Hub for simple stress-reduction techniques.
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#planner">Go to Planner</a>
+            <a class="btn btn-secondary" href="#wellbeing">View Tips</a>
+          </div>
+          <div class="notice" style="margin-top:1rem;">
+            StudyEase offers wellbeing support and self-management guidance. It does not provide medical diagnosis or crisis care.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="planner">
+      <div class="container">
+        <div class="section-head">
+          <h2>Study Planner</h2>
+          <p>
+            A structured space to reduce chaos around deadlines, revise more realistically, and turn pressure into manageable action.
+          </p>
+        </div>
+        <div class="panel planner-grid">
+          <aside class="sidebar">
+            <ul>
+              <li>Dashboard</li>
+              <li>Weekly Plan</li>
+              <li>Assignments</li>
+              <li>Break Reminders</li>
+              <li>Progress</li>
+            </ul>
+          </aside>
+          <div>
+            <div class="calendar">
+              <div class="day"><strong>Mon</strong><div class="task">Marketing notes</div></div>
+              <div class="day"><strong>Tue</strong><div class="task">Read article</div></div>
+              <div class="day"><strong>Wed</strong><div class="task">Draft outline</div></div>
+              <div class="day"><strong>Thu</strong><div class="task">Group meeting</div></div>
+              <div class="day"><strong>Fri</strong><div class="task">Essay editing</div></div>
+              <div class="day"><strong>Sat</strong><div class="task">Break + catch-up</div></div>
+              <div class="day"><strong>Sun</strong><div class="task">Weekly review</div></div>
+            </div>
+            <div class="grid-3" style="margin-top:1rem; grid-template-columns:repeat(3,1fr);">
+              <div class="card">
+                <h3>Upcoming deadlines</h3>
+                <p>Digital marketing essay — 15 Mar<br>Seminar notes — 12 Mar<br>Group presentation — 18 Mar</p>
+              </div>
+              <div class="card">
+                <h3>Priority tasks</h3>
+                <p>Finish outline<br>Review references<br>Prepare prototype feedback</p>
+              </div>
+              <div class="card">
+                <h3>Break reminders</h3>
+                <p>10-minute pause every 90 minutes to protect focus and reduce study fatigue.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="wellbeing">
+      <div class="container">
+        <div class="section-head">
+          <h2>Wellbeing Hub</h2>
+          <p>
+            Supportive, student-centred content that helps users manage academic stress with realistic and responsible advice.
+          </p>
+        </div>
+        <div class="tips">
+          <article class="tip">
+            <h3>5-minute breathing reset</h3>
+            <p>Use short breathing exercises before revision sessions or after stressful academic tasks.</p>
+          </article>
+          <article class="tip">
+            <h3>Deadline panic support</h3>
+            <p>Break urgent coursework into smaller tasks and focus on the next manageable step instead of the whole workload.</p>
+          </article>
+          <article class="tip">
+            <h3>Realistic study routines</h3>
+            <p>Build a plan that balances concentration, recovery, and flexibility rather than over-scheduling every hour.</p>
+          </article>
+        </div>
+        <div class="notice">
+          Ethical note: StudyEase avoids exaggerated mental health claims and uses supportive language designed to encourage student wellbeing,
+          privacy, and informed self-management.
+        </div>
+      </div>
+    </section>
+
+    <section id="community">
+      <div class="container">
+        <div class="section-head">
+          <h2>Community Support</h2>
+          <p>
+            Students often cope better when they realise they are not alone. StudyEase creates a safe space for peer encouragement and practical sharing.
+          </p>
+        </div>
+        <div class="panel">
+          <div class="community-post">
+            <div>
+              <strong>How do you stay calm before deadlines?</strong>
+              <div style="color:var(--muted); margin-top:.35rem;">24 replies · Exam Stress</div>
+            </div>
+            <a class="btn btn-secondary" href="#signup">Join Thread</a>
+          </div>
+          <div class="community-post">
+            <div>
+              <strong>What helps after a bad study week?</strong>
+              <div style="color:var(--muted); margin-top:.35rem;">18 replies · Motivation</div>
+            </div>
+            <a class="btn btn-secondary" href="#signup">Join Thread</a>
+          </div>
+          <div class="community-post">
+            <div>
+              <strong>How do you manage group work stress?</strong>
+              <div style="color:var(--muted); margin-top:.35rem;">12 replies · Group Work</div>
+            </div>
+            <a class="btn btn-secondary" href="#signup">Join Thread</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <div class="container">
+        <div class="section-head">
+          <h2>Simple freemium model</h2>
+          <p>
+            Free tools help students get started. Premium features provide deeper personalisation and more advanced planning support.
+          </p>
+        </div>
+        <div class="pricing">
+          <div class="price-card">
+            <span class="badge">Free Plan</span>
+            <h3>Essential support</h3>
+            <div class="price">£0</div>
+            <ul>
+              <li>Basic stress check</li>
+              <li>Simple weekly planner</li>
+              <li>Wellbeing articles and tips</li>
+              <li>Community access</li>
+            </ul>
+            <a class="btn btn-secondary" href="#signup">Start for Free</a>
+          </div>
+          <div class="price-card featured">
+            <span class="badge">Premium</span>
+            <h3>Deeper guidance</h3>
+            <div class="price">£4.99<span style="font-size:1rem; color:var(--muted);">/month</span></div>
+            <ul>
+              <li>Detailed stress insight report</li>
+              <li>AI personalised study planning</li>
+              <li>Guided stress-reduction mini sessions</li>
+              <li>Priority community support</li>
+            </ul>
+            <a class="btn btn-primary" href="#signup">Upgrade to Premium</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="signup">
+      <div class="container signup">
+        <div class="panel">
+          <div class="section-head" style="margin-bottom:.8rem;">
+            <h2>Create your account</h2>
+            <p>Start with a free stress check and build a more balanced study routine.</p>
+          </div>
+          <form>
+            <input type="text" placeholder="Full name" />
+            <input type="text" placeholder="University" />
+            <input type="email" placeholder="Email address" />
+            <input type="password" placeholder="Password" />
+            <label class="check"><input type="checkbox" /> I agree to the privacy policy.</label>
+            <label class="check"><input type="checkbox" /> I want wellbeing tips by email.</label>
+            <button class="btn btn-primary" type="button">Create Free Account</button>
+          </form>
+        </div>
+        <div class="panel">
+          <h3 style="margin-top:0;color:var(--navy);">Why students choose StudyEase</h3>
+          <p style="color:var(--muted); line-height:1.8;">
+            StudyEase is designed for students who need structure, reassurance, and simple digital support during academic pressure.
+            It combines guidance, planning, and wellbeing in one calm, student-friendly experience.
+          </p>
+          <div class="muted-box">
+            <strong style="color:var(--navy);">Privacy-first promise</strong><br><br>
+            Your data is stored securely and never sold to third parties. Communication is consent-based and focused on supportive student wellbeing.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-box">
+      <div>
+        <strong style="color:var(--navy);">StudyEase</strong><br>
+        Helping university students manage academic stress with greater balance and confidence.
+      </div>
+      <div>Features · Stress Check · Planner · Wellbeing · Community</div>
+    </div>
+  </footer>
+</body>
+</html>
